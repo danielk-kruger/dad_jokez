@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dad Jokezzz</title>
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <script src="./js/app.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="overlay"></div>
+      <header>
+        <div class="header-wrapper">
+          <div class="head-lead"><h2>Dad Jokezzz</h2></div>
+
+          <div class="toggle-sidebar">
+            <i class="bx bx-menu-alt-right"></i>
+          </div>
+        </div>
+      </header>
+      <div class="app">
+        <div class="app-wrapper">
+          <div class="app-wrapper_content">
+            <p class="dad_joke"></p>
+          </div>
+          <div class="app-footer">
+            <button class="btn_save">Save Joke</button>
+            <button class="btn_gen">Generate Joke</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="joke-title_modal">
+        <div class="close-modal">
+          <i class="bx bxs-x-square"></i>
+        </div>
+        <div class="wrapper">
+          <div class="modal-header">
+            <h2>Enter your own title for this joke!</h2>
+          </div>
+
+          <form>
+            <input type="text" id="custom_title" />
+            <button type="submit" class="modal-save_btn">Save</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="sidebar-fav">
+        <div class="close-sidebar">
+          <i class="bx bxs-x-square"></i>
+        </div>
+
+        <div class="sidebar-content">
+          <div class="sidebar-content_header">
+            <h2>Favorites!</h2>
+            <div class="menu">
+              <div class="menu-toggle">
+                <i class="bx bx-dots-vertical"></i>
+              </div>
+
+              <div class="menu-options">
+                <ul class="menu-options_list">
+                  <li class="sort-asc">
+                    <i class="bx bx-sort-z-a"></i>
+                    <span>Sort in Descending order</span>
+                  </li>
+                  <li class="sort-desc">
+                    <i class="bx bx-sort-z-a"></i>
+                    <span>Sort in Ascending order</span>
+                  </li>
+                  <li class="select-items">
+                    <i class="bx bxs-select-multiple"></i>
+                    Select items
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="fav-jokes" id="jokesList">
+            <!-- Joke cards -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
