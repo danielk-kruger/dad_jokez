@@ -10,13 +10,15 @@ const modal = document.querySelector('.joke-title_modal');
 
 const favTitle = document.getElementById('custom_title');
 const saveFavorite = document.querySelector('.modal-save_btn');
-const jokesList = document.getElementById('jokesList');
+const jokesList = document.querySelector('.fav-jokes');
 
 const menuToggleBtn = document.querySelector('.menu-toggle');
 const menu = document.querySelector('.menu-options');
+const trashBtn = document.querySelector('.selected-trash');
 
 let loading;
 let favorites = [];
+let selected = [];
 let selectMode = false;
 
 const getDadJoke = async () => {
@@ -78,11 +80,12 @@ function highlightSelected(item) {
 }
 
 function displaySelection(data, joke) {
-  selectMode = true;
-
   for (let item of data) {
     if (Number(joke.getAttribute('data-id')) === item.id) {
       highlightSelected(joke);
+      selected.push(item);
+
+      console.log(selected);
     }
   }
 
@@ -95,7 +98,8 @@ function restoreFavorites(data) {
   for (let joke of savedJokes) {
     joke.addEventListener('click', e => {
       const _item = e.target;
-      selectMode && displaySelection(data, _item);
+
+      displaySelection(data, _item);
     });
   }
 }
@@ -113,8 +117,12 @@ function displayFavorites(data) {
 
     jokesList.insertAdjacentHTML('beforeend', item);
   });
+}
 
-  // restoreFavorites(data);
+function removeSelected(data, selectedData) {
+  for (let item of selectedData) {
+    return data.filter(obj => item.id !== obj.id);
+  }
 }
 
 function saveToStorage(data) {
@@ -163,7 +171,15 @@ menuToggleBtn.addEventListener('click', () => {
 
 document.getElementById('selectOption').addEventListener('click', () => {
   hideMenu();
+  addClass(jokesList, 'select-mode');
+  addClass(trashBtn, 'active');
   restoreFavorites(favorites);
+});
+
+trashBtn.addEventListener('click', () => {
+  const test = removeSelected(favorites, selected);
+  console.log(test);
+  // saveToStorage(favorites);
 });
 
 function showModal() {
