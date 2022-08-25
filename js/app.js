@@ -17,6 +17,7 @@ const menu = document.querySelector('.menu-options');
 
 let loading;
 let favorites = [];
+let selectMode = false;
 
 const getDadJoke = async () => {
   loading = true;
@@ -72,28 +73,31 @@ function saveFavorites(data) {
   saveToStorage(data);
 }
 
-function displaySelection() {
-  const savedJokes = [...document.querySelectorAll('.joke-card')];
-
-  savedJokes.forEach(elem => {
-    elem.addEventListener('click', e => {
-      const jokeID = e.target.getAttribute('data-id');
-
-      if (elem.getAttribute('data-id') === jokeID) {
-        restoreFavorites(e.target);
-      }
-    });
-  });
-
-  // return res;
+function highlightSelected(item) {
+  item.classList.toggle('selected');
 }
 
-function restoreFavorites(element) {
-  console.log(element);
+function displaySelection(data, joke) {
+  selectMode = true;
 
-  favorites.forEach(item => {
-    console.log(item);
-  });
+  for (let item of data) {
+    if (Number(joke.getAttribute('data-id')) === item.id) {
+      highlightSelected(joke);
+    }
+  }
+
+  return null;
+}
+
+function restoreFavorites(data) {
+  const savedJokes = jokesList.children;
+
+  for (let joke of savedJokes) {
+    joke.addEventListener('click', e => {
+      const _item = e.target;
+      selectMode && displaySelection(data, _item);
+    });
+  }
 }
 
 function displayFavorites(data) {
@@ -110,7 +114,7 @@ function displayFavorites(data) {
     jokesList.insertAdjacentHTML('beforeend', item);
   });
 
-  // restoreFavorites();
+  // restoreFavorites(data);
 }
 
 function saveToStorage(data) {
@@ -129,6 +133,10 @@ function removeClass(elem, className) {
 
 function addClass(elem, className) {
   elem.classList.add(className);
+}
+
+function hideMenu() {
+  removeClass(menu, 'show');
 }
 
 openSidebar.addEventListener('click', () => {
@@ -151,6 +159,11 @@ saveBtn.addEventListener('click', () => {
 
 menuToggleBtn.addEventListener('click', () => {
   menu.classList.toggle('show');
+});
+
+document.getElementById('selectOption').addEventListener('click', () => {
+  hideMenu();
+  restoreFavorites(favorites);
 });
 
 function showModal() {

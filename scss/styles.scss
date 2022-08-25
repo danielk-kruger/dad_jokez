@@ -250,6 +250,7 @@
         justify-content: center;
         align-items: center;
         padding: 0rem 4rem 6rem;
+        position: relative;
 
         h2 {
           flex: 1;
@@ -259,7 +260,10 @@
 
         .menu {
           // padding: 1rem 0.5rem;
-          position: relative;
+          position: absolute;
+          top: 0;
+          right: 0;
+          transform: translateX(-50px);
           margin-top: 1rem;
 
           &-toggle {
@@ -340,12 +344,12 @@
       }
 
       .fav-jokes {
-        padding: 6rem 0rem 4rem 6rem;
+        padding: 2rem 0rem 4rem 6rem;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         flex-wrap: wrap;
-        gap: 4rem;
+        gap: 2rem 6rem;
 
         .joke-card {
           height: 150px;
@@ -359,11 +363,21 @@
           &:nth-child(odd) {
             background: rgba($primary-color, 0.22);
             border: 4px solid $primary-color;
+
+            &.selected {
+              border: 2px dotted tomato;
+              background: rgba(tomato, 0.22);
+            }
           }
 
           &:nth-child(even) {
             background: rgba($secondary-color, 0.22);
             border: 4px solid $secondary-color;
+
+            &.selected {
+              border: 2px dotted tomato;
+              background: rgba(tomato, 0.22);
+            }
           }
 
           &:hover {
