@@ -324,6 +324,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 2rem 2rem;
+  transition: all 0.4s ease;
 }
 .container .sidebar-fav .sidebar-content .fav-jokes .joke-card {
   height: 150px;

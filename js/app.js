@@ -20,6 +20,7 @@ let loading;
 let favorites = [];
 let selected = [];
 let selectMode = false;
+let isShown = false;
 
 const getDadJoke = async () => {
   loading = true;
@@ -46,6 +47,7 @@ generateBtn.addEventListener('click', async e => {
   await displayJoke();
 });
 
+// Startup actions
 window.addEventListener('DOMContentLoaded', async () => {
   if (localStorage.getItem('favorites') === null) {
     localStorage.setItem('favorites', JSON.stringify([]));
@@ -53,6 +55,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   favorites = getFromStorage();
   await displayJoke();
+  displayFavorites(favorites);
 });
 
 saveFavorite.addEventListener('click', e => {
@@ -66,13 +69,18 @@ saveFavorite.addEventListener('click', e => {
 function saveFavorites(data) {
   if (favTitle.value === '') return;
 
-  data.push({
+  const item = {
     id: Math.random() * 500,
     title: favTitle.value,
     content: jokeText.textContent,
-  });
+  };
 
-  saveToStorage(data);
+  data.push(item);
+  displayItem(data[data.indexOf(item)]);
+
+  const cache = [...new Map(data.map(item => [item.id, item])).values()];
+  saveToStorage(cache);
+  reloadData(favorites);
 }
 
 function highlightSelected(item) {
@@ -84,15 +92,14 @@ function displaySelection(data, joke) {
     if (Number(joke.getAttribute('data-id')) === item.id) {
       highlightSelected(joke);
       selected.push(item);
-
-      console.log(selected);
     }
   }
 
   return null;
 }
 
-function restoreFavorites(data) {
+function selectJoke(data) {
+  selectMode = true;
   const savedJokes = jokesList.children;
 
   for (let joke of savedJokes) {
@@ -102,27 +109,33 @@ function restoreFavorites(data) {
       displaySelection(data, _item);
     });
   }
+
+  if (!selectMode) return;
 }
 
 function displayFavorites(data) {
   data.forEach(val => {
-    const item = `
-    <div class="joke-card" data-id="${val.id}">
-      <h6 class="joke-title">${val.title}</h6>
-      <p class="joke-body">
-        ${val.content}
-      </p>
-   </div>
-    `;
+    const item = showFavJokeCard(val);
 
     jokesList.insertAdjacentHTML('beforeend', item);
   });
 }
 
+function displayItem(itemData) {
+  const item = showFavJokeCard(itemData);
+  jokesList.insertAdjacentHTML('beforeend', item);
+}
+
 function removeSelected(data, selectedData) {
+  if (selectedData == []) return;
+  // let newData = [];
+
   for (let item of selectedData) {
-    return data.filter(obj => item.id !== obj.id);
+    data = data.filter(favItem => favItem.id !== item.id);
   }
+
+  saveToStorage(data);
+  reloadData(data);
 }
 
 function saveToStorage(data) {
@@ -131,6 +144,13 @@ function saveToStorage(data) {
 
 function getFromStorage() {
   return JSON.parse(localStorage.getItem('favorites'));
+}
+
+function reloadData(currentData) {
+  currentData = getFromStorage();
+
+  [...jokesList.children].forEach(item => jokesList.removeChild(item));
+  displayFavorites(currentData);
 }
 
 // DOM ELEMENT CLASS MANIPULATIONS
@@ -149,7 +169,6 @@ function hideMenu() {
 
 openSidebar.addEventListener('click', () => {
   addClass(sidebar, 'active');
-  displayFavorites(favorites);
 });
 
 closeSidebar.addEventListener('click', () => {
@@ -173,16 +192,32 @@ document.getElementById('selectOption').addEventListener('click', () => {
   hideMenu();
   addClass(jokesList, 'select-mode');
   addClass(trashBtn, 'active');
-  restoreFavorites(favorites);
+  selectJoke(favorites);
 });
 
+function reset() {
+  selectMode = false;
+  removeClass(jokesList, 'select-mode');
+  removeClass(trashBtn, 'active');
+}
+
 trashBtn.addEventListener('click', () => {
-  const test = removeSelected(favorites, selected);
-  console.log(test);
-  // saveToStorage(favorites);
+  removeSelected(favorites, selected);
+  reset();
 });
 
 function showModal() {
   modal.classList.add('show');
   overlay.classList.add('show');
+}
+
+function showFavJokeCard(val) {
+  return `
+  <div class="joke-card" data-id="${val.id}">
+    <h6 class="joke-title">${val.title}</h6>
+    <p class="joke-body">
+      ${val.content}
+    </p>
+ </div>
+  `;
 }
