@@ -66,6 +66,10 @@ saveFavorite.addEventListener('click', e => {
   removeClass(overlay, 'show');
 });
 
+function setJoke(item) {
+  jokeText.textContent = item.content;
+}
+
 function saveFavorites(data) {
   if (favTitle.value === '') return;
 
@@ -86,37 +90,37 @@ function saveFavorites(data) {
 
 function highlightSelected(item) {
   item.classList.toggle('selected');
-  // addClass(item, 'selected');
 }
 
 function displaySelection(data, joke) {
-  for (let item of data) {
-    if (Number(joke.getAttribute('data-id')) === item.id) {
-      highlightSelected(joke);
+  verifyJoke(data, joke, item => {
+    highlightSelected(joke);
 
-      selected.includes(item) ? (selected = selected.filter(elem => elem.id !== item.id)) : selected.push(item);
+    selected.includes(item) ? (selected = selected.filter(elem => elem.id !== item.id)) : selected.push(item);
 
-      console.log(selected);
-    }
-  }
+    console.log(selected);
+  });
 
   return null;
 }
 
 function selectJoke(data) {
-  selectMode = true;
   const savedJokes = jokesList.children;
 
   for (let joke of savedJokes) {
     joke.addEventListener('click', e => {
-      const _item = e.target;
-      displaySelection(data, _item);
+      const target = e.target;
 
-      // console.log(selected);
+      !selectMode &&
+        verifyJoke(data, target, item => {
+          jokeText.textContent = item.content;
+          removeClass(sidebar, 'active');
+          hideMenu();
+        });
+
+      selectMode && displaySelection(data, target);
     });
   }
-
-  if (!selectMode) return;
 }
 
 function displayFavorites(data) {
@@ -141,6 +145,14 @@ function removeSelected(data, selectedData) {
   // update everything!
   saveToStorage(newData);
   reloadData(newData);
+}
+
+function verifyJoke(data, elem, exec) {
+  for (let item of data) {
+    if (Number(elem.getAttribute('data-id')) === item.id) {
+      exec(item);
+    }
+  }
 }
 
 function saveToStorage(data) {
@@ -178,6 +190,7 @@ function hideMenu() {
 
 openSidebar.addEventListener('click', () => {
   addClass(sidebar, 'active');
+  selectJoke(favorites);
 });
 
 closeSidebar.addEventListener('click', () => {
@@ -198,10 +211,10 @@ menuToggleBtn.addEventListener('click', () => {
 });
 
 document.getElementById('selectOption').addEventListener('click', () => {
+  selectMode = true;
   hideMenu();
   addClass(jokesList, 'select-mode');
   addClass(trashBtn, 'active');
-  selectJoke(favorites);
 });
 
 function reset() {

@@ -230,20 +230,24 @@
     transition: transform 0.4s ease;
     overflow-y: scroll;
     overflow-x: hidden;
+    padding-top: 4rem;
 
     &.active {
       transform: translateX(0px);
     }
 
     .close-sidebar {
-      padding-top: 4rem;
-      padding-left: 4rem;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translate(50px, 50px);
       font-size: 4rem;
       cursor: pointer;
+      // background: pink;
     }
 
     .sidebar-content {
-      margin-top: 0rem;
+      margin-top: 6rem;
 
       &_header {
         display: flex;
@@ -410,7 +414,6 @@
             font-weight: 400;
             padding-bottom: 1rem;
             pointer-events: none;
-            // text-align: center;
           }
 
           .joke-body {
@@ -419,7 +422,6 @@
             white-space: nowrap;
             padding: 4px;
             pointer-events: none;
-            // word-break: break-all;
           }
         }
         &.select-mode {

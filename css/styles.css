@@ -198,18 +198,21 @@
   transition: transform 0.4s ease;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding-top: 4rem;
 }
 .container .sidebar-fav.active {
   transform: translateX(0px);
 }
 .container .sidebar-fav .close-sidebar {
-  padding-top: 4rem;
-  padding-left: 4rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(50px, 50px);
   font-size: 4rem;
   cursor: pointer;
 }
 .container .sidebar-fav .sidebar-content {
-  margin-top: 0rem;
+  margin-top: 6rem;
 }
 .container .sidebar-fav .sidebar-content_header {
   display: flex;
