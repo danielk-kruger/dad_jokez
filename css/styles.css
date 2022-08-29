@@ -359,14 +359,17 @@
   padding: 4px;
   pointer-events: none;
 }
+.container .sidebar-fav .sidebar-content .fav-jokes.select-mode {
+  transition: all 0.4s ease;
+}
 .container .sidebar-fav .sidebar-content .fav-jokes.select-mode .joke-card {
   border: 2px dotted tomato;
   background: rgba(255, 99, 71, 0.22);
-  transition: transform 0.4s ease, border 0.1s linear;
+  transition: transform 0.4s ease, border 0.1s linear, background 0.4s ease;
 }
 .container .sidebar-fav .sidebar-content .fav-jokes.select-mode .joke-card.selected {
   border: 4px solid tomato;
-  background: rgba(255, 99, 71, 0.22);
+  background: rgba(255, 99, 71, 0.44);
 }
 
 /*# sourceMappingURL=styles.css.map */

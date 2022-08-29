@@ -80,18 +80,23 @@ function saveFavorites(data) {
 
   const cache = [...new Map(data.map(item => [item.id, item])).values()];
   saveToStorage(cache);
+
   reloadData(favorites);
 }
 
 function highlightSelected(item) {
   item.classList.toggle('selected');
+  // addClass(item, 'selected');
 }
 
 function displaySelection(data, joke) {
   for (let item of data) {
     if (Number(joke.getAttribute('data-id')) === item.id) {
       highlightSelected(joke);
-      selected.push(item);
+
+      selected.includes(item) ? (selected = selected.filter(elem => elem.id !== item.id)) : selected.push(item);
+
+      console.log(selected);
     }
   }
 
@@ -105,8 +110,9 @@ function selectJoke(data) {
   for (let joke of savedJokes) {
     joke.addEventListener('click', e => {
       const _item = e.target;
-
       displaySelection(data, _item);
+
+      // console.log(selected);
     });
   }
 
@@ -127,15 +133,14 @@ function displayItem(itemData) {
 }
 
 function removeSelected(data, selectedData) {
-  if (selectedData == []) return;
-  // let newData = [];
+  if (selectedData == []) return; // if nothing is selected, do nothing
 
-  for (let item of selectedData) {
-    data = data.filter(favItem => favItem.id !== item.id);
-  }
+  // filter out the main array with the selected items
+  const newData = data.filter(item => !selected.includes(item));
 
-  saveToStorage(data);
-  reloadData(data);
+  // update everything!
+  saveToStorage(newData);
+  reloadData(newData);
 }
 
 function saveToStorage(data) {
@@ -161,6 +166,10 @@ function removeClass(elem, className) {
 
 function addClass(elem, className) {
   elem.classList.add(className);
+}
+
+function hasClass(elem, className) {
+  return elem.classList.contains(className);
 }
 
 function hideMenu() {

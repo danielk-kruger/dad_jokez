@@ -423,14 +423,16 @@
           }
         }
         &.select-mode {
+          transition: all 0.4s ease;
+
           .joke-card {
             border: 2px dotted tomato;
             background: rgba(tomato, 0.22);
-            transition: transform 0.4s ease, border 0.1s linear;
+            transition: transform 0.4s ease, border 0.1s linear, background 0.4s ease;
 
             &.selected {
               border: 4px solid tomato;
-              background: rgba(tomato, 0.22);
+              background: rgba(tomato, 0.44);
             }
           }
         }
