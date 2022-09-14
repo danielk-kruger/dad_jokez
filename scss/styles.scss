@@ -19,6 +19,31 @@
   }
 }
 
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: ' ';
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid $black;
+  border-color: $black transparent $black transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .container {
   height: 100vh;
   width: 100%;
@@ -49,12 +74,15 @@
         flex: 1;
         color: $black;
         // text-align: center;
+
+        p {
+          font-size: 15px;
+          // transform: translateX(50px);
+          // text-align: right;
+        }
       }
 
       .toggle-sidebar {
-        // position: absolute;
-        // top: 0;
-        // right: 0;
         font-size: 4rem;
         cursor: pointer;
         color: $black;
@@ -77,10 +105,10 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       height: max-content;
-      width: 60%;
+      width: 75%;
       margin-top: 6rem;
       border-radius: 12px;
-      padding: 2rem 5rem;
+      padding: 3rem 3rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -89,16 +117,56 @@
 
       &_content {
         width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-        p {
-          text-align: center;
-          font-size: 2rem;
-          font-weight: normal;
+        .btn_prev,
+        .btn_next {
+          background: none;
+          border: none;
+          outline: none;
+          font-size: 4rem;
+          cursor: pointer;
+          transition: transform 0.4s ease, color 0.2s ease;
+
+          &:not([disabled]) {
+            color: $black;
+          }
+
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+        .btn_prev:not([disabled]) {
+          &:hover {
+            color: $secondary-color;
+          }
+        }
+
+        .btn_next:not([disabled]) {
+          &:hover {
+            color: $primary-color;
+          }
+        }
+
+        .dad-joke_content {
+          width: 60%;
+
+          p {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: normal;
+          }
         }
       }
 
       .app-footer {
+        width: 100%;
         padding: 4rem 0 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .btn_save,
         .btn_gen {
@@ -114,7 +182,7 @@
 
         .btn_save {
           background: $secondary-color;
-          margin-right: 1rem;
+          margin-right: 2rem;
           color: $white;
 
           &:hover {

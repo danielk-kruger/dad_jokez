@@ -16,15 +16,19 @@ const menuToggleBtn = document.querySelector('.menu-toggle');
 const menu = document.querySelector('.menu-options');
 const trashBtn = document.querySelector('.selected-trash');
 
+const prevBtn = document.querySelector('.btn_prev');
+const nextBtn = document.querySelector('.btn_next');
+
 let loading;
 let favorites = [];
 let selected = [];
+let previous = [];
 let selectMode = false;
 let isShown = false;
 
 const getDadJoke = async () => {
   loading = true;
-  jokeText.textContent = 'Loading joke...';
+  jokeText.innerHTML = '<div class="lds-dual-ring"></div>';
 
   return await fetch('https://icanhazdadjoke.com/', {
     headers: {
@@ -39,13 +43,29 @@ const getDadJoke = async () => {
 const displayJoke = async () => {
   const { joke } = await getDadJoke();
 
-  jokeText.textContent = joke;
+  jokeText.innerHTML = joke;
+  previous.push({ content: joke });
 };
 
 generateBtn.addEventListener('click', async e => {
   e.preventDefault();
   await displayJoke();
+  console.log(previous);
 });
+
+function showPrevious(prevData) {
+  const current = prevData.length;
+
+  prevData.forEach((item, index) => {
+    console.log(item, index);
+  });
+}
+
+prevBtn.addEventListener('click', () => {
+  previous !== [] && showPrevious(previous);
+});
+
+function showNext(prevData) {}
 
 // Startup actions
 window.addEventListener('DOMContentLoaded', async () => {

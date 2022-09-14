@@ -17,6 +17,32 @@
   display: block;
 }
 
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #232323;
+  border-color: #232323 transparent #232323 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .container {
   height: 100vh;
   width: 100%;
@@ -46,6 +72,9 @@
   flex: 1;
   color: #232323;
 }
+.container header .header-wrapper .head-lead p {
+  font-size: 15px;
+}
 .container header .header-wrapper .toggle-sidebar {
   font-size: 4rem;
   cursor: pointer;
@@ -66,10 +95,10 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   height: max-content;
-  width: 60%;
+  width: 75%;
   margin-top: 6rem;
   border-radius: 12px;
-  padding: 2rem 5rem;
+  padding: 3rem 3rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -78,14 +107,47 @@
 }
 .container .app-wrapper_content {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.container .app-wrapper_content p {
+.container .app-wrapper_content .btn_prev,
+.container .app-wrapper_content .btn_next {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 4rem;
+  cursor: pointer;
+  transition: transform 0.4s ease, color 0.2s ease;
+}
+.container .app-wrapper_content .btn_prev:not([disabled]),
+.container .app-wrapper_content .btn_next:not([disabled]) {
+  color: #232323;
+}
+.container .app-wrapper_content .btn_prev:hover,
+.container .app-wrapper_content .btn_next:hover {
+  transform: scale(1.05);
+}
+.container .app-wrapper_content .btn_prev:not([disabled]):hover {
+  color: #009efd;
+}
+.container .app-wrapper_content .btn_next:not([disabled]):hover {
+  color: #2af598;
+}
+.container .app-wrapper_content .dad-joke_content {
+  width: 60%;
+}
+.container .app-wrapper_content .dad-joke_content p {
   text-align: center;
   font-size: 2rem;
   font-weight: normal;
 }
 .container .app-wrapper .app-footer {
+  width: 100%;
   padding: 4rem 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .container .app-wrapper .app-footer .btn_save,
 .container .app-wrapper .app-footer .btn_gen {
@@ -100,7 +162,7 @@
 }
 .container .app-wrapper .app-footer .btn_save {
   background: #009efd;
-  margin-right: 1rem;
+  margin-right: 2rem;
   color: #f3f3f3;
 }
 .container .app-wrapper .app-footer .btn_save:hover {
